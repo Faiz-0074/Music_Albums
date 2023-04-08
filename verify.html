@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Email Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        color: white;
+        margin: 0;
+        padding: 0;
+        background-image: url("img4.jpg");     
+		    background-size: cover;
+		    background-repeat: no-repeat;
+      }
+
+      .form-wrap {
+        width: 50%;
+        margin: 0 auto;
+        margin-top: 25px;
+        background-color: #ffffff0f;
+        padding: 50px;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 36px;
+        color: #ffffff;
+        margin-top: 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input[type="email"], input[type="text"] {
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      input[type="submit"] {
+        font-size: 20px;
+        background-color: #90aeee;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #51dc6f;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="form-wrap">
+      <h1>Verify Email</h1>
+      <form id="verifyForm">
+        <input type="email" id="emailInputVerify" placeholder="Email" required>
+        <input type="text" id="codeInputVerify" placeholder="Verification Code" pattern=".*" required>
+
+        <input type="submit" value="Verify">
+      </form>
+    </section>
+
+    <script src="js/vendor/jquery-3.1.0.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+    <script src="js/vendor/amazon-cognito-identity.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/cognito-auth.js"></script>
+  </body>
+</html>

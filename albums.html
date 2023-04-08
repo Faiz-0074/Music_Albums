@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Music Albums</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.410.0.min.js"></script>
+
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        color: white;
+        margin: 0;
+        padding: 0;
+        background-image: url("img4.jpg");     
+		background-size: cover;
+		background-repeat: no-repeat;
+        }
+        .container {
+            margin-top: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.105);
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    .album-tile {
+    display: inline-block;
+    width: 30%;
+    height: 40%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.album-tile h3 {
+    font-size: 1.5em;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.album-tile p {
+    font-size: 1em;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.album-tile button {
+    font-size: 1em;
+    margin: 10px;
+}
+
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddddddce;
+        }
+        tr:hover {
+            background-color: #f5f5f5c5;
+        }
+        .btn-primary, .btn-danger {
+            margin-right: 10px;
+            background-color: #90aeee;
+        }
+        .btn-primary:hover {
+             background-color: #51dc6f;
+        }
+        .btn-group {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Humber Music Albums</h1>
+        <table id="albumTable">
+            <thead>
+                <div>
+                    <label for="genreFilter">Filter by genre:</label>
+                    <select id="genreFilter" onchange="displayAlbums()">
+                        <option value="">Select a genre</option>
+                        <option value="Alternative">Alternative</option>
+                        <option value="Blues">Blues</option>
+                        <option value="Classical">Classical</option>
+                        <option value="Country">Country</option>
+                        <option value="Electronic">Electronic</option>
+                        <option value="Hip Hop/Rap">Hip Hop/Rap</option>
+                        <option value="Jazz">Jazz</option>
+                        <option value="Pop">Pop</option>
+                        <option value="R&B/Soul">R&B/Soul</option>
+                        <option value="Reggae">Reggae</option>
+                        <option value="Rock">Rock</option>
+                    </select>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='addalbum.html'">Add Album</button>
+                </div>
+                <div id="albumTiles"></div>
+            </thead>
+            <div id="albumTiles"></div>
+        </table>
+        
+    </div>
+ <!-- Modal HTML -->
+ <div id="editModal" class="modal fade">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Album</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="newAlbumTitle">New Album Title:</label>
+                        <input type="text" class="form-control" id="newAlbumTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="newArtistName">New Artist Name:</label>
+                        <input type="text" class="form-control" id="newArtistName">
+                    </div>
+                    <div class="form-group">
+                        <label for="newAlbumGenre">New Album Genre:</label>
+                        
+                        <select class="form-control" id="newAlbumGenre">
+                            <option value="">Select a genre</option>
+                            <option value="Alternative">Alternative</option>
+                            <option value="Blues">Blues</option>
+                            <option value="Classical">Classical</option>
+                            <option value="Country">Country</option>
+                            <option value="Electronic">Electronic</option>
+                            <option value="Hip Hop/Rap">Hip Hop/Rap</option>
+                            <option value="Jazz">Jazz</option>
+                            <option value="Pop">Pop</option>
+                            <option value="R&B/Soul">R&B/Soul</option>
+                            <option value="Reggae">Reggae</option>
+                            <option value="Rock">Rock</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newAlbumYear">New Album Year:</label>
+                        <input type="text" class="form-control" id="newAlbumYear">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="submitEdit">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+       $(document).ready(function() {
+    displayAlbums();
+});
+
+function displayAlbums() {
+    var genre = $("#genreFilter").val();
+    var url = "https://6rou2ikuia.execute-api.us-east-1.amazonaws.com/prod/albums";
+    if (genre) {
+        url += "?genre=" + genre;
+    }
+            $.ajax({
+                url: url,
+                type: 'GET',
+                contentType: 'application/json',
+                success: function(result) {
+                    console.log(result); // add this line to see the response
+                    var albums = result;
+                    console.log(albums); // add this line to see if there are any items
+                    var html = '';
+                    for (var i = 0; i < albums.length; i++) {
+                        html += '<div class="album-tile">';
+                        html += '<h3>' + albums[i].Album + '</h3>';
+                        html += '<p>Artist: ' + albums[i].Artist + '</p>';
+                        html += '<p>Genre: ' + albums[i].Genre + '</p>';
+                        html += '<p>Year: ';
+                        if (albums[i].Year) {
+                            html += albums[i].Year;
+                        } else {
+                            html += 'N/A';
+                        }
+                        html += '</p>';
+                        html += '<button type="button" class="btn btn-primary" onclick="editAlbum(\'' + albums[i].id + '\', \'' + albums[i].Album + '\', \'' + albums[i].Artist + '\', \'' + albums[i].Genre + '\', \'' + albums[i].Year + '\')">Edit</button>';
+                        html += '<button type="button" class="btn btn-danger" onclick="deleteAlbum(\'' + albums[i].id + '\', \'' + albums[i].Genre + '\')">Delete</button>';
+                        html += '</div>';
+                    }
+                    $('#albumTiles').html(html);
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Error getting albums: ' + errorThrown);
+                    console.log(textStatus); // add this line to see the error
+                }
+            });
+        }
+
+        
+  
+    
+    
+            //Delete Function
+            function deleteAlbum(albumId,albumGenre) {
+            $.ajax({
+            url: 'https://6rou2ikuia.execute-api.us-east-1.amazonaws.com/prod/albums',
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({
+            pathParameters: {
+            "id": albumId,
+            "genre": albumGenre
+            }
+        }),
+            success: function(result) {
+                console.log(result); // add this line to see the response
+                // reload the table after deleting the album
+                displayAlbums();
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                alert('Error deleting album: ' + errorThrown);
+                console.log(textStatus); // add this line to see the error
+            }
+        });
+    }
+ // Edit Function
+ function editAlbum(albumId, albumTitle, artistName, albumGenre, albumYear) {
+        // Set the values of the modal fields to the current album details
+        $('#newAlbumTitle').val(albumTitle);
+        $('#newArtistName').val(artistName);
+        $('#newAlbumGenre').val(albumGenre);
+        $('#newAlbumYear').val(albumYear);
+
+        // Show the modal
+        $('#editModal').modal('show');
+
+        $('#submitEdit').click(function() {
+            var newAlbumTitle = $('#newAlbumTitle').val();
+            var newArtistName = $('#newArtistName').val();
+            var newAlbumGenre = $('#newAlbumGenre').val();
+            var newAlbumYear = $('#newAlbumYear').val();
+
+            if (newAlbumTitle != null && newArtistName != null && newAlbumGenre != null) {
+                var updatedAlbum = {
+                    'Album': newAlbumTitle,
+                    'Artist': newArtistName,
+                    'Genre': newAlbumGenre,
+                    'Year': newAlbumYear // add this line to update the year field
+                };
+                
+                $.ajax({
+                    url: 'https://6rou2ikuia.execute-api.us-east-1.amazonaws.com/prod/albums',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        pathParameters: {
+                            "id": albumId
+                        },
+                        'body': JSON.stringify(updatedAlbum)
+                    }),
+                    success: function(result) {
+                        console.log(result); // add this line to see the response
+                        alert('Album updated successfully!');
+                        displayAlbums();
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        alert('Error updating album: ' + errorThrown);
+                        console.log(textStatus); // add this line to see the error
+                    }
+                });
+            }
+
+            // Hide the modal
+            $('#editModal').modal('hide');
+        });
+    }   
+    </script>

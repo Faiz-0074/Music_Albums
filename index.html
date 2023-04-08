@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Music Library</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+  <link rel="stylesheet" href="css/main.css">
+
+  <script src="js/vendor/modernizr.js"></script>
+</head>
+<body>
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .site-header {
+      box-shadow: 0 1px 2px rgba(255, 255, 255, 0.011), 0 1px 2px rgba(0,0,0,0.24);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+      background-color: #ffffffc0;
+      color: #2a2a62;
+      font-style: double;
+      font-size: larger;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-text {
+      margin-left: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .nav-list {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-list li {
+      margin-left: 1.5rem;
+    }
+    .nav-list li:first-child {
+      margin-left: 0;
+    }
+    .nav-list a {
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+    }
+    .nav-list a:hover {
+      color: #1c95df;
+    }
+    .hero {
+      background-image: url('img4.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-title {
+      font-size: 4rem;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background-color: #0062cc;
+    }
+  </style>
+  <header class="site-header">
+    <nav class="nav">
+      <div class="container">
+        <div class="logo-container">
+          <img src="download.png" alt="Music Library Logo" width="200" height="50">
+          <div class="logo-text">Humber Music Library</div>
+        </div>
+        <ul class="nav-list">
+          <li><a href="./signin.html">Login</a></li>
+          <li><a href="./register.html">Register</a></li>
+        </ul>
+        <!-- button type="button" class="btn-menu"><span>Menu</span></button -->
+      </div>
+    </nav>
+    <div class="hero">
+      <div class="container">
+        <h1 class="hero-title">Browse Our Music Library</h1>
+        <a href="./signin.html" class="btn btn-primary">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <script src="js/vendor.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

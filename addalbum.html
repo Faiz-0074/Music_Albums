@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Music Albums</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("img4.jpg");     
+		background-size: cover;
+		background-repeat: no-repeat;
+        }
+        
+        .container {
+            margin-top: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.105);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        label {
+            font-weight: bold;
+            color:#ffffff; 
+        }
+        .form-control {
+            border-radius: 0;
+        }
+        #submitAlbum {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #90aeee;
+        }
+        #submitAlbum:hover {
+        background-color: #51dc6f;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            $('#submitAlbum').click(function() {
+                var album = {
+                    album: $('#title').val(),
+                    artist: $('#artist').val(),
+                    genre: $('#genre').val(),
+                    year: $('#year').val()
+                };
+                
+                $.ajax({
+                    url: 'https://6rou2ikuia.execute-api.us-east-1.amazonaws.com/prod/albums',
+                    type: 'POST',
+                    data: JSON.stringify({body: JSON.stringify(album)}),
+                    contentType: 'application/json',
+                    success: function(result) {
+                        console.log(result);
+                        $('#title').val('');
+                        $('#artist').val('');
+                        $('#genre').val('');
+                        $('#year').val('');
+                        window.location.href = '/albums.html'; // Redirect to albums page
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        alert('Error adding album: ' + errorThrown);
+                        console.log(textStatus + ': ' + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+   
+    <div class="container">
+        <h2>Add Album</h2>
+        <form>
+            <div class="form-group">
+                <label for="title">Album:</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label for="artist">Artist:</label>
+                <input type="text" class="form-control" id="artist" placeholder="Enter artist">
+            </div>
+            <div class="form-group">
+                <label for="genreSelect">Genre:</label>
+                <select class="form-control" id="genre">
+                    <option value="">Select a genre</option>
+                    <option value="Alternative">Alternative</option>
+                    <option value="Blues">Blues</option>
+                    <option value="Classical">Classical</option>
+                    <option value="Country">Country</option>
+                    <option value="Electronic">Electronic</option>
+                    <option value="Hip Hop/Rap">Hip Hop/Rap</option>
+                    <option value="Jazz">Jazz</option>
+                    <option value="Pop">Pop</option>
+                    <option value="R&B/Soul">R&B/Soul</option>
+                    <option value="Reggae">Reggae</option>
+                    <option value="Rock">Rock</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="text" class="form-control" id="year" placeholder="Enter year">
+            </div>
+            <button type="button" class="btn btn-primary" id="submitAlbum">Submit</button>
+        </form>
+        <br>
+    </div>
+
+</body>
+</html>

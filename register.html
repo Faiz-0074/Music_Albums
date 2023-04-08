@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Registration Form</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        color: white;
+        margin: 0;
+        padding: 0;
+        background-image: url("img4.jpg");     
+		    background-size: cover;
+		    background-repeat: no-repeat;
+      }
+      .form-wrap {
+        background-color: #ffffff14;
+        margin: 50px auto;
+        padding: 20px;
+        max-width: 500px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        text-align: center;
+        font-size: 2em;
+        margin: 0 0 20px;
+        color: white;
+      }
+      label {
+        display: block;
+        font-size: 1.2em;
+        margin-bottom: 5px;
+        color:white;
+      }
+      input[type="email"],
+      input[type="password"] {
+        display: block;
+        width: 97%;
+        padding: 10px;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        font-size: 1.2em;
+        border-radius: 5px;
+        border: none;
+        background-color: #90aeee;
+        color: #fff;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #51dc6f;
+      }
+      
+      
+        /* Music note animations */
+  .music-note {
+    position: absolute;
+    color: #90aeee;
+    font-size: 2rem;
+    animation: music-note 2s infinite;
+  }
+  
+  
+  /* Music graphics */
+  .music-graphics {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  
+  .music-graphics img {
+    width: 80px;
+    margin: 0 20px;
+    animation: rotate 2s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+
+
+      @keyframes music-note {
+        0% {
+          transform: translateX(-100px) rotate(0deg);
+        }
+        50% {
+          transform: translateX(100px) rotate(360deg);
+        }
+        100% {
+          transform: translateX(-100px) rotate(720deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+  
+    <section class="form-wrap">
+      <h1>Register </h1>
+      <form id="registrationForm">
+        <label for="emailInputRegister">Email:</label>
+        <input type="email" id="emailInputRegister" placeholder="Enter your email" pattern=".*" required>
+        <label for="passwordInputRegister">Password:</label>
+        <input type="password" id="passwordInputRegister" placeholder="Enter your password" pattern=".*" required>
+        <label for="password2InputRegister">Confirm Password:</label>
+        <input type="password" id="password2InputRegister" placeholder="Confirm your password" pattern=".*" required>
+        <input type="submit" value="Sign up">
+      </form>
+      <p>Already have an account? <a href="./signin.html" style="color:white; font-weight:bold; font-size: 20px;">Sign In</a></p>
+          <!-- Music note animations -->
+<div class="music-note">&#9835;</div>
+<div class="music-note">&#9833;</div>
+<div class="music-note">&#9834;</div>
+<div class="music-note">&#9836;</div>
+<div class="music-graphics">
+  <img src="https://img.icons8.com/color/48/000000/music.png"/>
+ 
+<img src="https://img.icons8.com/color/48/000000/music.png"/>
+    </section>
+    
+    <script src="js/vendor/jquery-3.1.0.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>  
+    <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+    <script src="js/vendor/amazon-cognito-identity.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/cognito-auth.js"></script>
+    
+<script>
+  // Randomize music note position and animation duration
+  const notes = document.querySelectorAll('.music-note');
+  notes.forEach(note => {
+    const duration = Math.floor(Math.random() * 6 + 2); // Random duration between 2-8 seconds
+    note.style.animationDuration = `${duration}s`;
+    note.style.left = `${Math.floor(Math.random() * 90)}%`;
+    note.style.top = `${Math.floor(Math.random() * 90)}%`;
+  });
+</script>
+
+  </body>
+</html>
